@@ -2,15 +2,15 @@ import numpy as np
 
 class NeuralNetwork:
     def __init__(self, sizes):
+        np.random.seed(2015)
+
         self.sizes = sizes
         self.num_layers = len(sizes)
         self.biases = [np.random.randn(s, 1) for s in sizes[1:]]
         self.weights = [np.random.randn(s1, s2) for s1, s2 in zip(sizes[:-1], sizes[1:])]
         self.activations = []
         self.z_inputs = []
-        
-        np.random.seed(2015)
-    
+            
     def feedforward(self, x, y):
         self.activations = [x]
         self.z_inputs = [x]
