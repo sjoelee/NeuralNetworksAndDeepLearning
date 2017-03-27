@@ -16,22 +16,23 @@ class NeuralNetwork:
             n = len(data)
             batch_data = [data[i:i+batch_size] for i in xrange(0, n, batch_size)]
             for idx, batch in enumerate(batch_data):
-                self.feedforward(x=batch[0][0], y=batch[0][1]) ## need to address this for the batch size
+                self.feedforward(x=batch[0][0]) ## need to address this for the batch size
                 self.backpropagate(y=batch[0][1])
 
     def test(self, data):
-        error_rate = 0
+        num_error = 0
         for test_data in data:
             x_test = test_data[0]
-            y_test = test_data[1]
-            self.feedforward(x_test, y_test)
-            error = (y_test != self.activations[-1])
+            y_test = test_data[1] # contains only a number and not an array of values like the test data
+            self.feedforward(x_test)
+            y_pred = np.argmax(self.activations[-1])
+            error = (y_test != y_pred)
             if error:
                 num_error += 1
         
-        return num_error / (1.*len(data))
+        print "ERROR RATE: ", num_error / (1.*len(data))
 
-    def feedforward(self, x, y):
+    def feedforward(self, x):
         self.activations = [x]
         self.z_inputs = [x]
 
